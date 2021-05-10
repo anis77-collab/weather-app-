@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <div class="logo">
+            <div class="image"><img src="logo2.png"></div>
+            <div class="title">Métoe</div>
+        </div>
+        <img src="weather.png" class="weather"/>
+        <form  action="javascript:void(0);">
+            <input id="search" type="search" name="search" placeholder="search a place">
+            <input type="submit" value="click here" id="submit">
+        </form>
+        <div class="list">
+        <ul class="list-group list-unstyled">
+            <li class="list-group-item" id="temp"></li>
+            <li class="list-group-item" id="desc"></li>
+        </ul>
+    </div>
+    </main>
+    <script>
+       var input = document.querySelector('#search');
+var main = document.querySelector('#submit');
+var temp = document.querySelector('#temp');
+var desc = document.querySelector('#desc');
+var clouds = document.querySelector('#clouds');
+
+console.log(input.value)
+
+main.addEventListener('click', function(name){
+fetch("https://api.openweathermap.org/data/2.5/weather?q=+"+input.value+"&appid=61aa0f4cf32d53658e7d730443839ad0")
+.then(response => response.json())
+.then(data => {
+  
+  var tempValue = data['main']['temp'];
+  var nameValue = data['name'];
+  var descValue = data['weather'][0]['description'];
+
+  main.innerHTML = nameValue;
+  desc.innerHTML = "Desc - "+descValue;
+  temp.innerHTML = "Temp - "+Math.floor((tempValue - 272.15));
+  input.value ="";
+  document.querySelector('.list').style.display= "block"
+
+})
+
+.catch(err => alert("Wrong city name!"));
+})
+    </script>
+</body>
+</html>
